@@ -7,11 +7,12 @@ class Configula
   
   def inspect
     return "not yet prepared" unless prepared?
-    val = "{\n"
-    val << @configs.collect do |key, value| 
-      "#{key.inspect} => #{value.inspect},\n"
-    end.join
-    val << "}\n"
+    return "{}" if @configs.empty?
+    
+    val = @configs.sort.collect do |key, value| 
+      "#{key.inspect} => #{value.inspect}"
+    end.join(",\n")
+    ["{", val, "}"].join("\n")
   end
   
   def prepared?
@@ -41,6 +42,10 @@ class Configula
     @configs[key.to_s]
   end
   
+  def exists?(key)
+    !!@configs[key.to_s]
+  end
+  
   def method_missing(method_name, *args)
     if prepared?
       if args.empty?
@@ -51,7 +56,10 @@ class Configula
     end
     
     # Multilevel Chaining
-    return set(method_name, Configula.new) if args.empty?
+    if args.empty?
+      return set(method_name, Configula.new) unless exists?(method_name)
+      return get(method_name)
+    end
     
     method_name = method_name.to_s
     method_name = method_name[-1,1] == '=' ? method_name[0..-2] : method_name

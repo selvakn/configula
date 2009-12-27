@@ -7,10 +7,11 @@ describe Configula do
         super
         set :string_config, "some_string_value"
         set :proc_config, lambda{ "this is a proc: #{string_config}" }
-        
+
         another_config "another_config"
         self.config_equals = "config_equals"
         chaining.config = "chaining config"
+        chaining.config2 = "chaining config2"
       end
     end
   end
@@ -38,6 +39,7 @@ describe Configula do
 
     it "should multi step chaining config" do
       @config.chaining.config.should == "chaining config"
+      @config.chaining.config2.should == "chaining config2"
     end
 
     it "should return nil value for unknown config" do
@@ -61,37 +63,52 @@ describe Configula do
     config.config_equals.should == "new config equals"
     config.chaining.config.should == "new config chaining"
   end
-  
+
 end
 
-describe Configula do
-  describe "inspect properlly" do
-    it "empty config" do
-      class MyConfig < Configula
-        def initialize
-          super
-        end
+describe Configula, "should inspect properlly for" do
+  it "empty config" do
+    class MyConfig < Configula
+      def initialize
+        super
       end
-      MyConfig.prepare.inspect.should == <<-EOS
-{
-}
-EOS
     end
-    
-    it "with one level of values" do
-      class MyConfig < Configula
-        def initialize
-          super
-          asd "value1"
-          qwe "value2"
-        end
+    MyConfig.prepare.inspect.should == "{}"
+  end
+
+  it "with one level of values" do
+    class MyConfig < Configula
+      def initialize
+        super
+        asd "value1"
+        qwe "value2"
       end
-      MyConfig.prepare.inspect.should == <<-EOS
-{
+    end
+    MyConfig.prepare.inspect.should == 
+'{
+"asd" => "value1",
+"qwe" => "value2"
+}'
+  end
+
+  it "two levels" do
+    class MyConfig < Configula
+      def initialize
+        super
+        asd "value1"
+        qwe "value2"
+        zxc.cvb "value3"
+        zxc.vbn "value4"
+      end
+    end
+    MyConfig.prepare.inspect.should == 
+'{
 "asd" => "value1",
 "qwe" => "value2",
+"zxc" => {
+"cvb" => "value3",
+"vbn" => "value4"
 }
-EOS
-    end
+}'
   end
 end
