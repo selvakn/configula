@@ -51,10 +51,6 @@ class Configula
     @configs[key.to_s]
   end
   
-  def exists?(key)
-    !!@configs[key.to_s]
-  end
-  
   def method_missing(method_name, *args)
     if prepared?
       if args.empty?
@@ -65,13 +61,10 @@ class Configula
     end
     
     # Multilevel Chaining
-    if args.empty?
-      return set(method_name, Configula.new) unless exists?(method_name)
-      return get(method_name)
-    end
+    return get(method_name) || set(method_name, Configula.new) if args.empty?
     
     method_name = method_name.to_s
-    method_name = method_name[-1,1] == '=' ? method_name[0..-2] : method_name
-    set method_name, args.first
+    method_name = method_name[0..-2] if(method_name[-1,1] == '=')
+    set(method_name, args.first)
   end
 end
