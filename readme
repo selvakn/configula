@@ -1,1 +1,3 @@
-no more
+Class and Object based config management for different environments for possibly different locales.
+
+And backed by database and admin console (Not yet Implemented)
