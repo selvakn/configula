@@ -4,6 +4,7 @@ describe Configula do
   before(:each) do
     class MyConfig < Configula
       def initialize
+        super
         set :string_config, "some_string_value"
         set :proc_config, lambda{ "this is a proc: #{string_config}" }
         
@@ -12,10 +13,6 @@ describe Configula do
         chaining.config = "chaining config"
       end
     end
-  end
-
-  after(:each) do
-    MyConfig.reset
   end
 
   describe "setting of basic values" do
@@ -64,19 +61,37 @@ describe Configula do
     config.config_equals.should == "new config equals"
     config.chaining.config.should == "new config chaining"
   end
+  
+end
 
-  it "should not allow changes after preparing" do
-    MyConfig.prepare
-
-    class InheritedConfig < MyConfig
-      def initialize
-        super
-        set :string_config, "new string value"
-        self.config_equals = "new config equals"
-        chaining.config = "new config chaining"
+describe Configula do
+  describe "inspect properlly" do
+    it "empty config" do
+      class MyConfig < Configula
+        def initialize
+          super
+        end
       end
+      MyConfig.prepare.inspect.should == <<-EOS
+{
+}
+EOS
     end
-
-    lambda { InheritedConfig.prepare }.should raise_error
+    
+    it "with one level of values" do
+      class MyConfig < Configula
+        def initialize
+          super
+          asd "value1"
+          qwe "value2"
+        end
+      end
+      MyConfig.prepare.inspect.should == <<-EOS
+{
+"asd" => "value1",
+"qwe" => "value2",
+}
+EOS
+    end
   end
 end
