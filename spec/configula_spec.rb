@@ -63,6 +63,10 @@ describe Configula do
     config.config_equals.should == "new config equals"
     config.chaining.config.should == "new config chaining"
   end
+  
+  it "should not allow changes after preparing" do
+    
+  end
 
 end
 

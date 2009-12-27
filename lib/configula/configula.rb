@@ -1,12 +1,6 @@
 class Configula
   
-  def initialize
-    @prepared = false
-    @configs = {}
-  end
-  
   def inspect
-    return "not yet prepared" unless prepared?
     return "{}" if @configs.empty?
     
     val = @configs.sort.collect do |key, value| 
@@ -15,13 +9,17 @@ class Configula
     ["{", val, "}"].join("\n")
   end
   
-  def prepared?
-    @prepared
+  def self.prepare
+    new.prepare!
+  end
+  
+  def set(key, value)
+    @configs[key.to_s] = value
   end
   
   def prepare!
     for value in @configs.values
-      value.prepare! if value.kind_of?(Configula)
+      value.send("prepare!") if value.kind_of?(Configula)
     end
     @prepared = true
     @configs.each do |key, value|
@@ -29,13 +27,15 @@ class Configula
     end
     self
   end
-  
-  def self.prepare
-    new.prepare!
+
+  private
+  def initialize
+    @prepared = false
+    @configs = {}
   end
   
-  def set(key, value)
-    @configs[key.to_s] = value
+  def prepared?
+    @prepared
   end
   
   def get(key)
