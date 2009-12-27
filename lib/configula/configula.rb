@@ -1,4 +1,6 @@
 class Configula
+  class ConfigError < StandardError
+  end
   
   def inspect
     return "{}" if @configs.empty?
@@ -23,11 +25,18 @@ class Configula
     end
     @prepared = true
     @configs.each do |key, value|
-      @configs[key] = value.call if value.kind_of?(Proc)
+      case
+      when value.kind_of?(Proc)
+        @configs[key] = value.call
+      when value.kind_of?(String)
+        @configs[key] = eval("%Q{#{value}}")
+      end
     end
     self
   end
-
+  
+  alias defer lambda
+  
   private
   def initialize
     @prepared = false
@@ -51,7 +60,7 @@ class Configula
       if args.empty?
         return get(method_name)
       else
-        raise "trying to change after preparing noodles. daai.. test azuthuda!!" if !args.empty? and prepared?
+        raise ConfigError.new("trying to change after preparing")
       end
     end
     

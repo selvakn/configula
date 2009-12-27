@@ -6,7 +6,8 @@ describe Configula do
       def initialize
         super
         set :string_config, "some_string_value"
-        set :proc_config, lambda{ "this is a proc: #{string_config}" }
+        set :proc_config, defer{ "this is a proc: #{string_config}" }
+        set :proc_config_without_block, 'this is a proc: #{string_config}'
 
         another_config "another_config"
         self.config_equals = "config_equals"
@@ -23,6 +24,10 @@ describe Configula do
 
     it "should call the proc config when it is a proc " do
       @config.proc_config.should == "this is a proc: some_string_value"
+    end
+
+    it "should eval config when it is not a proc but a string with interpolation" do
+      @config.proc_config_without_block.should == "this is a proc: some_string_value"
     end
 
     it "should allow values assigned with set setting of values with set" do
@@ -65,9 +70,15 @@ describe Configula do
   end
   
   it "should not allow changes after preparing" do
-    
-  end
+    config = MyConfig.prepare
+    lambda {
+      config.string_config = "new value"
+    }.should raise_error(Configula::ConfigError, "trying to change after preparing")
 
+    lambda {
+      config.new_config = "someother new value"
+    }.should raise_error(Configula::ConfigError, "trying to change after preparing")
+  end
 end
 
 describe Configula, "should inspect properlly for" do
