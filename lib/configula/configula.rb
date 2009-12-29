@@ -11,6 +11,14 @@ class Configula
     ["{", val, "}"].join("\n")
   end
   
+  def to_hash
+    @configs.inject({}) do |hash, key_value|
+      key, value = key_value
+      hash[key] = value.kind_of?(Configula) ? value.to_hash : value
+      hash
+    end
+  end
+
   def self.prepare
     new.prepare!
   end

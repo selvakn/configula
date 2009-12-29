@@ -13,10 +13,12 @@ describe Configula do
         self.config_equals = "config_equals"
         chaining.config = "chaining config"
         chaining.config2 = "chaining config2"
+        array_config [1, 2, "three"]
+        hash_config({:key1 => :value1, :key2 => ["values", nil, 1, :whatever]})
       end
     end
   end
-
+  
   describe "setting of basic values" do
     before(:each) do
       @config = MyConfig.prepare
@@ -50,6 +52,20 @@ describe Configula do
     it "should return nil value for unknown config" do
       @config.some_unknown_key.should == nil
     end
+    
+    describe "should allow storing of other valid JSON types" do
+      it "array" do
+        @config.array_config.should == [1, 2, "three"]
+      end
+      
+      it "hash" do
+        @config.hash_config.should == {
+          :key1 => :value1,
+          :key2 => ["values", nil, 1, :whatever]
+        }
+      end
+      
+    end
   end
 
   it "should allow overriding of the values with inherting" do
@@ -78,6 +94,26 @@ describe Configula do
     lambda {
       config.new_config = "someother new value"
     }.should raise_error(Configula::ConfigError, "trying to change after preparing")
+  end
+  
+  it "convert the config into hash" do
+    config = MyConfig.prepare
+    config.to_hash.should == {
+      "another_config" => "another_config",
+      "array_config" => [1, 2, "three"],
+      "config_equals" => "config_equals", 
+      "chaining" => { 
+        "config" => "chaining config", 
+        "config2" => "chaining config2"
+      },
+      "hash_config" => {
+        :key1 => :value1,
+        :key2 => ["values", nil, 1, :whatever]
+      },
+      "proc_config" => "this is a proc: some_string_value", 
+      "proc_config_without_block" => "this is a proc: some_string_value",
+      "string_config" => "some_string_value"
+    }
   end
 end
 
