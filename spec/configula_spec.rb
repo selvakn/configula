@@ -1,8 +1,8 @@
 require File.join(File.dirname( __FILE__ ), 'spec_helper')
 
-describe Configula do
+describe Configula::Base do
   before(:each) do
-    class MyConfig < Configula
+    class MyConfig < Configula::Base
       def initialize
         super
         set :string_config, "some_string_value"
@@ -117,9 +117,9 @@ describe Configula do
   end
 end
 
-describe Configula, "should inspect properlly for" do
+describe Configula::Base, "should inspect properlly for" do
   it "empty config" do
-    class MyConfig < Configula
+    class MyConfig < Configula::Base
       def initialize
         super
       end
@@ -128,7 +128,7 @@ describe Configula, "should inspect properlly for" do
   end
 
   it "with one level of values" do
-    class MyConfig < Configula
+    class MyConfig < Configula::Base
       def initialize
         super
         asd "value1"
@@ -143,7 +143,7 @@ describe Configula, "should inspect properlly for" do
   end
 
   it "two levels" do
-    class MyConfig < Configula
+    class MyConfig < Configula::Base
       def initialize
         super
         asd "value1"
