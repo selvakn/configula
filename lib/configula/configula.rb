@@ -1,22 +1,8 @@
+require File.join(File.dirname( __FILE__ ), 'store/abstract_store')
+require File.join(File.dirname( __FILE__ ), 'store/yaml_store')
+
 module Configula
   class Base
-    def inspect
-      return "{}" if @configs.empty?
-
-      val = @configs.sort.collect do |key, value| 
-        "#{key.inspect} => #{value.inspect}"
-      end.join(",\n")
-      ["{", val, "}"].join("\n")
-    end
-
-    def to_hash
-      @configs.inject({}) do |hash, key_value|
-        key, value = key_value
-        hash[key] = value.kind_of?(Configula::Base) ? value.to_hash : value
-        hash
-      end
-    end
-
     def self.prepare
       self.new.prepare!
     end
@@ -39,6 +25,23 @@ module Configula
         end
       end
       self
+    end
+
+    def inspect
+      return "{}" if @configs.empty?
+
+      val = @configs.sort.collect do |key, value| 
+        "#{key.inspect} => #{value.inspect}"
+      end.join(",\n")
+      ["{", val, "}"].join("\n")
+    end
+
+    def to_hash
+      @configs.inject({}) do |hash, key_value|
+        key, value = key_value
+        hash[key] = value.kind_of?(Configula::Base) ? value.to_hash : value
+        hash
+      end
     end
 
     alias defer lambda
@@ -73,5 +76,7 @@ module Configula
       method_name = method_name[0..-2] if(method_name[-1,1] == '=')
       set(method_name, args.first)
     end
+
+    include Canfigula::Store::AbstractStore
   end
 end
