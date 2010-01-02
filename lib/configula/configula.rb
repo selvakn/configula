@@ -13,7 +13,7 @@ module Configula
 
     def prepare!
       for value in self.values
-        value.send("prepare!") if value.kind_of?(Configula::Base)
+        value.prepare! if value.kind_of?(Configula::Base)
       end
       @prepared = true
       each do |key, value|
@@ -30,12 +30,9 @@ module Configula
     alias defer lambda
 
     private
-    def initialize
-      @prepared = false
-    end
 
     def prepared?
-      @prepared
+      @prepared ||= false
     end
 
     def get(key)

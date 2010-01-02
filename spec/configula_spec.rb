@@ -4,7 +4,6 @@ describe Configula::Base do
   before(:each) do
     class MyConfig < Configula::Base
       def initialize
-        super
         set :string_config, "some_string_value"
         set :proc_config, defer{ "this is a proc: #{string_config}" }
         set :proc_config_without_block, 'this is a proc: #{string_config}'
@@ -78,7 +77,6 @@ describe Configula::Base do
   it "should allow overriding of the values with inherting" do
     class InheritedConfig < MyConfig
       def initialize
-        super
         set :string_config, "new string value"
         self.config_equals = "new config equals"
         chaining.config = "new config chaining"
