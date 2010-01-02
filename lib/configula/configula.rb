@@ -27,23 +27,6 @@ module Configula
       self
     end
 
-    def inspect
-      return "{}" if @configs.empty?
-
-      val = @configs.sort.collect do |key, value| 
-        "#{key.inspect} => #{value.inspect}"
-      end.join(",\n")
-      ["{", val, "}"].join("\n")
-    end
-
-    def to_hash
-      @configs.inject({}) do |hash, key_value|
-        key, value = key_value
-        hash[key] = value.kind_of?(Configula::Base) ? value.to_hash : value
-        hash
-      end
-    end
-
     alias defer lambda
 
     private
