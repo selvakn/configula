@@ -1,41 +1,24 @@
 module Configula
-  class Base
-    def inspect
-      return "{}" if @configs.empty?
-
-      val = @configs.sort.collect do |key, value| 
-        "#{key.inspect} => #{value.inspect}"
-      end.join(",\n")
-      ["{", val, "}"].join("\n")
-    end
-
-    def to_hash
-      @configs.inject({}) do |hash, key_value|
-        key, value = key_value
-        hash[key] = value.kind_of?(Configula::Base) ? value.to_hash : value
-        hash
-      end
-    end
-
+  class Base < Hash
     def self.prepare
-      self.new.prepare!
+      new.prepare!
     end
 
     def set(key, value)
-      @configs[key.to_s] = value
+      self[key.to_s] = value
     end
 
     def prepare!
-      for value in @configs.values
+      for value in self.values
         value.send("prepare!") if value.kind_of?(Configula::Base)
       end
       @prepared = true
-      @configs.each do |key, value|
+      each do |key, value|
         case
         when value.kind_of?(Proc)
-          @configs[key] = value.call
+          self[key] = value.call
         when value.kind_of?(String)
-          @configs[key] = eval("%Q{#{value}}")
+          self[key] = eval("%Q{#{value}}")
         end
       end
       self
@@ -46,7 +29,6 @@ module Configula
     private
     def initialize
       @prepared = false
-      @configs = {}
     end
 
     def prepared?
@@ -54,7 +36,7 @@ module Configula
     end
 
     def get(key)
-      @configs[key.to_s]
+      self[key.to_s]
     end
 
     def method_missing(method_name, *args)

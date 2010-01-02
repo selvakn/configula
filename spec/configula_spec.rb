@@ -48,6 +48,13 @@ describe Configula::Base do
       @config.chaining.config.should == "chaining config"
       @config.chaining.config2.should == "chaining config2"
     end
+    
+    it "should allow accessing the config chainied as a hash" do
+      @config.chaining.should == {
+        "config" => "chaining config",
+        "config2" => "chaining config2"
+      }
+    end
 
     it "should return nil value for unknown config" do
       @config.some_unknown_key.should == nil
@@ -114,52 +121,5 @@ describe Configula::Base do
       "proc_config_without_block" => "this is a proc: some_string_value",
       "string_config" => "some_string_value"
     }
-  end
-end
-
-describe Configula::Base, "should inspect properlly for" do
-  it "empty config" do
-    class MyConfig < Configula::Base
-      def initialize
-        super
-      end
-    end
-    MyConfig.prepare.inspect.should == "{}"
-  end
-
-  it "with one level of values" do
-    class MyConfig < Configula::Base
-      def initialize
-        super
-        asd "value1"
-        qwe "value2"
-      end
-    end
-    MyConfig.prepare.inspect.should == 
-'{
-"asd" => "value1",
-"qwe" => "value2"
-}'
-  end
-
-  it "two levels" do
-    class MyConfig < Configula::Base
-      def initialize
-        super
-        asd "value1"
-        qwe "value2"
-        zxc.cvb "value3"
-        zxc.vbn "value4"
-      end
-    end
-    MyConfig.prepare.inspect.should == 
-'{
-"asd" => "value1",
-"qwe" => "value2",
-"zxc" => {
-"cvb" => "value3",
-"vbn" => "value4"
-}
-}'
   end
 end
