@@ -103,7 +103,7 @@ describe Configula::Base do
   
   it "convert the config into hash" do
     config = MyConfig.prepare
-    config.to_hash.should == {
+    config.should == {
       "another_config" => "another_config",
       "array_config" => [1, 2, "three"],
       "config_equals" => "config_equals", 

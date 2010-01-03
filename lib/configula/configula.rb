@@ -26,7 +26,7 @@ module Configula
       end
       self
     end
-
+    
     alias defer lambda
 
     private
