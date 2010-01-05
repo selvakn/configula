@@ -3,7 +3,7 @@ require 'tempfile'
 
 describe Configula::Base do
   before(:each) do
-    class MyConfig < Configula::Base
+    class MyConfigOnYamlStore < Configula::Base
       self.persistance_options = {:store_name => Canfigula::Store::YamlStore, :file => "/tmp/configula-yaml-store-spec-#{rand*100}.yml"}
       
       def initialize
@@ -13,11 +13,11 @@ describe Configula::Base do
       end
     end
     
-    @file_name = MyConfig.persistance_options[:file]
+    @file_name = MyConfigOnYamlStore.persistance_options[:file]
   end
 
   it "should store in the yaml file specified in the config" do
-    config = MyConfig.prepare
+    config = MyConfigOnYamlStore.prepare
     config.persist
 
     yaml_file_contents = YAML.load_file(@file_name)
@@ -28,10 +28,10 @@ describe Configula::Base do
   end
 
   it "should be able to construct configula object from contents read from yaml file" do
-    config = MyConfig.prepare
+    config = MyConfigOnYamlStore.prepare
     config.persist
 
-    config_loaded_from_file = MyConfig.load_from_store(@file_name)
+    config_loaded_from_file = MyConfigOnYamlStore.load_from_store(@file_name)
     config_loaded_from_file.should == config
   end
 

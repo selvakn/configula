@@ -2,14 +2,14 @@ require 'spec/spec_helper'
 
 describe Canfigula::Store::YamlStore do
   before(:each) do
-    class MyConfig < Configula::Base
+    class MyConfigOnAbstractStore < Configula::Base
       def initialize
         super
         config "config_value"
       end
       
     end
-    @config = MyConfig.prepare
+    @config = MyConfigOnAbstractStore.prepare
   end
   
   it "should raise error on trying to save and retriving" do
@@ -18,12 +18,12 @@ describe Canfigula::Store::YamlStore do
     }.should raise_error(Configula::ConfigError, "No store is cofigured")
 
     lambda{
-      MyConfig.load_from_store
+      MyConfigOnAbstractStore.load_from_store
     }.should raise_error(Configula::ConfigError, "No store is cofigured")
   end
   
   it "should include AbstractStore by default" do
-    MyConfig.ancestors.should be_include(Canfigula::Store::AbstractStore)
+    MyConfigOnAbstractStore.ancestors.should be_include(Canfigula::Store::AbstractStore)
   end
   
 end
