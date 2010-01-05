@@ -66,11 +66,15 @@ describe Configula::Base do
       
       it "hash" do
         @config.hash_config.should == {
-          :key1 => :value1,
-          :key2 => ["values", nil, 1, :whatever]
+          "key1" => :value1,
+          "key2" => ["values", nil, 1, :whatever]
         }
       end
       
+      it "should convert the hash into another configula object" do
+        @config.hash_config.key1.should == :value1
+        @config.hash_config.key2.should == ["values", nil, 1, :whatever]
+      end
     end
   end
 
@@ -112,8 +116,8 @@ describe Configula::Base do
         "config2" => "chaining config2"
       },
       "hash_config" => {
-        :key1 => :value1,
-        :key2 => ["values", nil, 1, :whatever]
+        "key1" => :value1,
+        "key2" => ["values", nil, 1, :whatever]
       },
       "proc_config" => "this is a proc: some_string_value", 
       "proc_config_without_block" => "this is a proc: some_string_value",

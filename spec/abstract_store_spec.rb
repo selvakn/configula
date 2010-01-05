@@ -18,7 +18,7 @@ describe Canfigula::Store::YamlStore do
     }.should raise_error(Configula::ConfigError, "No store is cofigured")
 
     lambda{
-      MyConfig.load
+      MyConfig.load_from_store
     }.should raise_error(Configula::ConfigError, "No store is cofigured")
   end
   

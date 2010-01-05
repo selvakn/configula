@@ -12,24 +12,34 @@ module Configula
     end
 
     def prepare!
-      for value in self.values
-        value.prepare! if value.kind_of?(Configula::Base)
-      end
-      @prepared = true
       each do |key, value|
         case
         when value.kind_of?(Proc)
           self[key] = value.call
         when value.kind_of?(String)
           self[key] = eval("%Q{#{value}}")
+        when value.kind_of?(Hash)
+          self[key] = Configula::Base.from_hash(value).prepare!
+        when value.kind_of?(Configula::Base)
+          value.prepare!
         end
       end
+      
+      @prepared = true
       self
     end
+    
     alias defer lambda
 
     private
-
+    def self.from_hash(hash)
+      new_object = new
+      hash.each do |key, value|
+        new_object.set(key, value)
+      end
+      new_object
+    end
+    
     def prepared?
       @prepared ||= false
     end
