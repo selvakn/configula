@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require File.join(File.dirname( __FILE__ ), 'spec_helper')
 require 'tempfile'
 
 describe Configula::Base do
@@ -31,8 +31,7 @@ describe Configula::Base do
     config = MyConfigOnYamlStore.prepare
     config.persist
 
-    config_loaded_from_file = MyConfigOnYamlStore.load_from_store(@file_name)
+    config_loaded_from_file = MyConfigOnYamlStore.load_from_store
     config_loaded_from_file.should == config
   end
-
 end

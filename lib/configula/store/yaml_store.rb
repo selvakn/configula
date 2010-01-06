@@ -3,7 +3,8 @@ module Canfigula
     module YamlStore
 
       module ClassMethods
-        def load_from_store(file_name)
+        def load_from_store
+          file_name = Configula::Base.persistance_options[:file]
           from_hash YAML.load_file(file_name)
         end
       end

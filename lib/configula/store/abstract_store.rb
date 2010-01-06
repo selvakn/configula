@@ -8,6 +8,12 @@ module Canfigula
           raise_no_store_error
         end
         
+        def load_config
+          load_from_store
+        rescue Exception
+          prepare
+        end
+        
         def raise_no_store_error
           raise Configula::ConfigError.new("No store is cofigured")
         end

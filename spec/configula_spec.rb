@@ -105,6 +105,15 @@ describe Configula::Base do
     }.should raise_error(Configula::ConfigError, "trying to change after preparing")
   end
   
+  it "should allow changes with set method" do
+    config = MyConfig.prepare
+    config.set(:new_config, "someother new value")
+    config.new_config.should == "someother new value"
+
+    config.set(:new_config, "someother new new value")
+    config.new_config.should == "someother new new value"
+  end
+  
   it "convert the config into hash" do
     config = MyConfig.prepare
     config.should == {
