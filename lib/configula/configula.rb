@@ -33,7 +33,7 @@ module Configula
 
     private
     def self.from_hash(hash)
-      new_object = new
+      new_object = Configula::Base.new
       hash.each do |key, value|
         new_object.set(key, value)
       end
