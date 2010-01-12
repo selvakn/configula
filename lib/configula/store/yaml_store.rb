@@ -1,22 +1,17 @@
-module Canfigula
+module Configula
   module Store
     module YamlStore
 
-      module ClassMethods
-        def load_from_store
-          file_name = Configula::Base.persistance_options[:file]
-          from_hash YAML.load_file(file_name)
-        end
+      def load_from_store
+        reset YAML.load_file(Configula.meta_config.store[:file])
       end
-
+      
       def persist
-        file_name = self.class.persistance_options[:file]
-        File.open(file_name, "w"){|file| file << to_yaml}
+        File.open(Configula.meta_config.store[:file], "w") { |file|
+          file << to_yaml
+        }
       end
-
-      def self.included(klass)
-        klass.extend ClassMethods
-      end
+      
     end
   end
 end

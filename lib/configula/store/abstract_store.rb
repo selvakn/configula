@@ -1,41 +1,17 @@
-module Canfigula
+module Configula
   module Store
     module AbstractStore
-      @@persistance_options = {}
-
-      module ClassMethods
-        def load_from_store
-          raise_no_store_error
-        end
-        
-        def load_config
-          load_from_store
-        rescue Exception
-          prepare
-        end
-        
-        def raise_no_store_error
-          raise Configula::ConfigError.new("No store is cofigured")
-        end
-
-        def persistance_options= (options = {})
-          @@persistance_options = options
-          include @@persistance_options[:store_name]
-        end
-
-        def persistance_options
-          @@persistance_options || {}
-        end
+      def load_from_store
+        raise_no_store_error
       end
 
       def persist
-        self.class.raise_no_store_error
+        raise_no_store_error
       end
 
-      def self.included(klass)
-        klass.extend ClassMethods
+      def raise_no_store_error
+        raise Configula::ConfigError.new("No store is cofigured")
       end
-
     end
   end
 end
