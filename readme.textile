@@ -1,0 +1,8 @@
+*Configula*
+
+
+* Yaml (or hash) based config management for different environments and locales.
+
+* With admin console for modifying the config at run time(Not yet Implemented).
+
+* And backed by different types of stores (for persistence in production env).
