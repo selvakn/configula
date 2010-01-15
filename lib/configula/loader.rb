@@ -1,6 +1,7 @@
 module Configula
   class MetaConfig
-    attr_accessor :store, :hashes, :yaml_file_location
+    OPTIONS = [:store, :hashes, :yaml_file_location]
+    attr_accessor *OPTIONS
     
     def yaml_files=(files)
       @hashes = files.collect do |file_name|
@@ -23,26 +24,21 @@ module Configula
     def yaml_file_location
       @yaml_file_location ||= File.join(RAILS_ROOT, "config", "configula")
     end
+    
   end
   
-  def self.load_config
-    extend_store(Base.new).load_from_store
+  def self.load_config(meta_config)
+    config = Base.new.load_from_store
   rescue Exception => e
-    extend_store Base.prepare(*meta_config.hashes)
+    config = Base.prepare(*meta_config.hashes)
+  ensure
+    config.store = meta_config.store
   end
   
   def self.prepare(&block)
-    @meta_config = MetaConfig.new
-    yield(@meta_config) if block
-    load_config
+    meta_config = MetaConfig.new
+    yield(meta_config) if block
+    load_config(meta_config)
   end
   
-  def self.meta_config
-    @meta_config
-  end
-  
-  def self.extend_store(config)
-    config.extend(meta_config.store[:name]) if meta_config.store and meta_config.store[:name]
-    config
-  end
 end

@@ -24,19 +24,4 @@ describe Configula::Store::AbstractStore do
   it "should include AbstractStore by default" do
     Configula::Base.ancestors.should be_include(Configula::Store::AbstractStore)
   end
-  
-  describe "load_config" do
-    it "should try to load the config from store" do
-      pending "move to loader spec"
-      config_from_file = mock(:config_from_file)
-      Configula::Base.should_receive(:load_from_store).and_return(config_from_file)
-      Configula::Base.load_config.should == config_from_file
-    end
-    
-    it "should load from definition if load from store fails" do
-      pending "move to loader spec"
-      Configula::Base.should_receive(:load_from_store).and_raise(Exception.new)
-      Configula::Base.load_config.should == @config
-    end
-  end
 end

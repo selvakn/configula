@@ -74,5 +74,7 @@ module Configula
     end
 
     include Store::AbstractStore
+    
+    private_instance_methods "[]="
   end
 end

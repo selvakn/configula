@@ -5,10 +5,8 @@ module Admin
     end
     
     def update
-      params["config"].each do |key, value|
-        AppConfig.set(key, value)
-      end
-      render :text => "Success"
+      AppConfig.reset(params["config"])
+      index
     end
   end
 end

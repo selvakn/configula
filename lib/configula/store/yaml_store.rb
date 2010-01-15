@@ -3,13 +3,11 @@ module Configula
     module YamlStore
 
       def load_from_store
-        reset YAML.load_file(Configula.meta_config.store[:file])
+        reset YAML.load_file(store[:file])
       end
       
       def persist
-        File.open(Configula.meta_config.store[:file], "w") { |file|
-          file << to_yaml
-        }
+        File.open(store[:file], "w") {|file| file << to_yaml }
       end
       
     end
