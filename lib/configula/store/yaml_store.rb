@@ -4,6 +4,8 @@ module Configula
 
       def load_from_store
         reset YAML.load_file(store[:file])
+      rescue Errno::ENOENT
+        raise LoadFromStoreError.new("not able to load yaml file")
       end
       
       def persist

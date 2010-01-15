@@ -28,11 +28,13 @@ module Configula
   end
   
   def self.load_config(meta_config)
-    config = Base.new.load_from_store
-  rescue Exception => e
-    config = Base.prepare(*meta_config.hashes)
-  ensure
+    config = Base.new
     config.store = meta_config.store
+    config.load_from_store
+  rescue Configula::Store::LoadFromStoreError => e
+    Base.prepare(*meta_config.hashes)
+  ensure
+    
   end
   
   def self.prepare(&block)

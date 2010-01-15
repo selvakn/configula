@@ -1,5 +1,8 @@
 module Configula
   module Store
+    class LoadFromStoreError < ConfigError
+    end
+    
     module AbstractStore
       attr_accessor :store
       
@@ -17,7 +20,7 @@ module Configula
       end
       
       def raise_no_store_error
-        raise Configula::ConfigError.new("No store is cofigured")
+        raise LoadFromStoreError.new("No store is cofigured")
       end
     end
   end
