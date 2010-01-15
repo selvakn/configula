@@ -32,7 +32,9 @@ module Configula
     config.store = meta_config.store
     config.load_from_store
   rescue Configula::Store::LoadFromStoreError => e
-    Base.prepare(*meta_config.hashes)
+    config = Base.prepare(*meta_config.hashes)
+    config.store = meta_config.store
+    config
   ensure
     
   end

@@ -54,6 +54,4 @@ describe Configula::Store::YamlStore do
   end
   
   it "should raise load error for all yaml load failures"
-  
-  it "should handle store failures also"
 end
