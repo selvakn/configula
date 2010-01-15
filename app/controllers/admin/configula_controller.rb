@@ -6,7 +6,7 @@ module Admin
     
     def update
       AppConfig.reset(params["config"])
-      index
+      redirect_to :action => :index
     end
   end
 end

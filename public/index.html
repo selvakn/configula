@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"> 
+<html> 
+<head> 
+<script src="javascripts/JSONeditor.js"></script> 
+<script> 
+onload=function(){
+	JSONeditor.start('tree', {"a":1, "b":[1,2,3], "c":{"d":"e"}})
+}
+</script>
+<style type="text/css">
+    body {
+        font-size:12px;
+    }
+
+    #tree{
+        position:absolute;
+        top:10px;
+        left:10px
+    }
+
+    #jform{
+        position:absolute;
+        top:10px;
+        left:50%;
+    }
+</style>
+</head> 
+<body> 
+<div id="tree"></div>
+<div id="jform">
+	<form name="jsoninput" action="#" onsubmit="return treeBuilder.jsonChange(this)" id="jsoninput">
+		<input name="jlabel" type="text" value="" size="60" style="width:400px"/>
+        <br/><br/>
+		Value:<br/>
+		<textarea name="jvalue" rows="10" cols="50" style="width:400px"></textarea>
+        <br/><br/>
+		Data type:
+        <select onchange="treeBuilder.changeJsonDataType(this.value,this.parentNode)" name="jtype">
+			<option value="array">
+				array
+			</option>
+			<option value="string">
+				string
+			</option>
+			<option value="number">
+				number
+			</option>
+			<option value="boolean">
+				boolean
+			</option>
+			<option value="null">
+				nil
+			</option>
+		</select> &nbsp;&nbsp;&nbsp;&nbsp;
+        <input name="orgjlabel" type="hidden" value="" size="50" style="width:300px"/>
+        <input onfocus="this.blur()" type="submit" value="Save"/>
+        &nbsp;<br/>
+		<br/>
+		<input name="jAddChild" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonAddChild(this.parentNode)" value="Add child"> <input name="jAddSibling" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonAddSibling(this.parentNode)" value="Add sibling"/>
+        <br/><br/>
+		<input name="jRemove" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonRemove(this.parentNode)" value="Delete">&nbsp; <input name="jRename" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonRename(this.parentNode)" value="Rename">&nbsp; <input name="jCut" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonCut(this.parentNode)" value="Cut">&nbsp; <input name="jCopy" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonCopy(this.parentNode)" value="Copy">&nbsp; <input name="jPaste" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonPaste(this.parentNode)" value="Paste"/>
+        &nbsp;
+        <br/><br/>
+		<input type="checkbox" name="jbefore"/>Add children first/siblings before<br/>
+		<input type="checkbox" name="jPasteAsChild"/>Paste as child on objects &amp; arrays<br/>
+		<br/>
+		<div id="jformMessage"></div>
+	</form>
+</div>
+</body> 
+</html>
