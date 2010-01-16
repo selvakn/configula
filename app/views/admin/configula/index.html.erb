@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
 <html>
 <head>
-  <title>Configula Admin</title>
+  <title>AppConfig Admin</title>
   <script src="/configula_public/javascripts/JSONeditor.js"></script>
   <script>
   onload=function(){
@@ -17,26 +17,39 @@
       }
 
       #tree{
-          position:absolute;
-          top:10px;
-          left:10px
+          padding:10px;
+          float:left;
+          width:40%;
       }
 
       #jform{
-          position:absolute;
-          top:10px;
-          left:50%;
+          padding:10px;
+          display:inline-block;
+      }
+
+      .message{
+        text-align:center;
+        font-size:large;
+        font-variant:small-caps;
+      }
+      #error{
+        color:crimson;
+      }
+      #info{
+          color:teal;
       }
   </style>
 
 </head>
 <body>
+<div id="info" class="message"><%= flash[:info] %></div>
+<div id="error" class="message"><%= flash[:error] %></div>
 <div id="tree"></div>
 <div id="jform">
   <%= render :partial => 'json_input_form' %>
   <% form_tag({}, :onsubmit => "return setConfigValue(this)") do %>
   <%= hidden_field_tag "config" %>
-  <%= submit_tag "Update and Persist Configula" %>
+  <%= submit_tag "Prepare and Persist AppConfig" %>
   <% end %>
 </div>
 </body>
