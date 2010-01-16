@@ -62,7 +62,7 @@ describe Configula do
       end
       
       it "should load from definition if load from store fails" do
-        config_from_store = Configula::Base.new
+        config_from_store = Configula::Base.empty_config
         Configula::Base.should_receive(:prepare).with(@app_config).and_return(config_from_store)
 
         config = Configula.prepare do |config|
@@ -81,7 +81,7 @@ describe Configula do
       end
       
       it "should set store option even on load from store failures" do
-        config_from_store = Configula::Base.new
+        config_from_store = Configula::Base.empty_config
         Configula::Base.should_receive(:prepare).with(@app_config).and_return(config_from_store)
 
         store_options = @store_options.merge(:file => nil, :name => nil)

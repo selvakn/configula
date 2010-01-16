@@ -10,7 +10,7 @@ describe Configula::Base do
         "config" => "chaining config",
         "config2" => "chaining config2"
       },
-      :array_config => [1, 2, "three"],
+      :array_config => [1, 2, "three", "{{string_config}}"],
       :hash_config => {
         :key1 => :value1, 
         :key2 => ["values", nil, 1, :whatever]
@@ -29,6 +29,10 @@ describe Configula::Base do
     
     it "should eval config when it is a string with interpolation" do
       @config.ar_style_interpol_config.should == "this is a some_string_value"
+    end
+    
+    it "should eval contents of array config also" do
+      @config.array_config[3].should == @config.string_config
     end
 
     it "should multi step chaining config" do
@@ -49,7 +53,7 @@ describe Configula::Base do
     
     describe "should allow storing of other valid JSON types" do
       it "array" do
-        @config.array_config.should == [1, 2, "three"]
+        @config.array_config.should == [1, 2, "three", "some_string_value"]
       end
       
       it "hash" do
@@ -136,7 +140,7 @@ describe Configula::Base do
     it "should convert the config into hash" do
       @config.should == {
         "another_config" => "another_config",
-        "array_config" => [1, 2, "three"],
+        "array_config" => [1, 2, "three", "some_string_value"],
         "chaining" => { 
           "config" => "chaining config", 
           "config2" => "chaining config2"

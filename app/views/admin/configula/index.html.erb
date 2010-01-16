@@ -46,11 +46,15 @@
 <div id="error" class="message"><%= flash[:error] %></div>
 <div id="tree"></div>
 <div id="jform">
-  <%= render :partial => 'json_input_form' %>
-  <% form_tag({}, :onsubmit => "return setConfigValue(this)") do %>
-  <%= hidden_field_tag "config" %>
-  <%= submit_tag "Prepare and Persist AppConfig" %>
-  <% end %>
+	<div><%= render :partial => 'json_input_form' %></div>
+	<div><%= link_to "Reload AppConfig from Definition", admin_load_config_from_defn_path %></div>
+	</br>
+	<div>
+		<% form_tag({}, :onsubmit => "return setConfigValue(this)") do %>
+		<%= hidden_field_tag "config" %>
+		<%= submit_tag "Prepare and Persist AppConfig" %>
+		<% end %>
+	</div>
 </div>
 </body>
 </html>

@@ -16,7 +16,7 @@ describe Configula::Store::YamlStore do
   
   describe "storing and retriving" do
     before(:each) do
-      @config = Configula::Base.new
+      @config = Configula::Base.empty_config
       @config.store = @store_options
       @config.reset(@hash)
     end
@@ -34,7 +34,7 @@ describe Configula::Store::YamlStore do
     it "should be able to construct configula object from contents read from yaml file" do
       @config.persist
 
-      new_config = Configula::Base.new
+      new_config = Configula::Base.empty_config
       new_config.store = @store_options
       
       new_config.load_from_store
@@ -45,7 +45,7 @@ describe Configula::Store::YamlStore do
   it "should raise load error if not able to find the file" do
     YAML.should_receive(:load_file).with(@store_options[:file]).and_raise(Errno::ENOENT.new("not found"))
     
-    config = Configula::Base.new
+    config = Configula::Base.empty_config
     config.store = @store_options
     
     lambda{
