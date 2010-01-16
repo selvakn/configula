@@ -25,16 +25,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /*
-Modified By Selva for
-Specific requirements
+Modified By Selva for Configula
 */
 
 JSONeditor={
 	start:function(treeDivName, json){
-		this.treeDivName=treeDivName
-		var t=this.treeBuilder, $=t.$
-		treeBuilder=t
-		t.JSONbuild(treeDivName,json)
+		this.treeDivName=treeDivName;
+		treeBuilder=this.treeBuilder,
+        $=treeBuilder.$;
+		treeBuilder.JSONbuild(treeDivName,json);
 	},
     defaultRootName: "AppConfig"
 }
@@ -61,7 +60,7 @@ JSONeditor.treeBuilder={
 		folderNodeOpenFirst:'',
 		folderNodeLastFirst:'',
 		folderNodeOpenLastFirst:'',
-		path:'images/',
+		path:'/configula_public/images/',
 		nodeWidth:16
 	},
 	$:function(x){return document.getElementById(x)},
@@ -401,7 +400,7 @@ JSONeditor.treeBuilder={
 		}
 		if(divName){
 			this.build(divName,this.jsonResponder,this.JSONmem)
-			if(!this.hasRunJSONbuildOnce){this.jsonResponder('json')}
+			if(!this.hasRunJSONbuildOnce){this.jsonResponder("json")}
 			this.hasRunJSONbuildOnce=true
 		}
 	},
