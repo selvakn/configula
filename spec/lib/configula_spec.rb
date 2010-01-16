@@ -4,7 +4,7 @@ describe Configula::Base do
   before(:each) do
     @hash = {
       :string_config => "some_string_value",
-      :string_interpol_config => 'this is a proc: #{string_config}',
+      :ar_style_interpol_config => "this is a {{string_config}}",
       :another_config => "another_config",
       :chaining => {
         "config" => "chaining config",
@@ -27,8 +27,8 @@ describe Configula::Base do
       @config.string_config.should == "some_string_value"
     end
     
-    it "should eval config when it is not a proc but a string with interpolation" do
-      @config.string_interpol_config.should == "this is a proc: some_string_value"
+    it "should eval config when it is a string with interpolation" do
+      @config.ar_style_interpol_config.should == "this is a some_string_value"
     end
 
     it "should multi step chaining config" do
@@ -102,7 +102,7 @@ describe Configula::Base do
         end
         
         it "should prepare the values before setting" do
-          @config.reset(:hash_config => {"a" => "b"}, :new_string => '#{hash_config["a"]}')
+          @config.reset(:hash_config => {"a" => "b"}, :new_string => '{{hash_config["a"]}}')
           @config.hash_config.should == {"a" => "b"}
           @config.new_string.should == "b"
         end
@@ -145,7 +145,7 @@ describe Configula::Base do
           "key1" => :value1,
           "key2" => ["values", nil, 1, :whatever]
         },
-        "string_interpol_config" => "this is a proc: some_string_value",
+        "ar_style_interpol_config" => "this is a some_string_value",
         "string_config" => "some_string_value"
       }
     end

@@ -5,13 +5,6 @@
   <script src="/configula_public/javascripts/JSONeditor.js"></script>
   <script>
   onload=function(){
-      hash = {
-          "a":1,
-          "b":[1,2,3],
-          "c":{
-              "d":"e"
-          }
-      };
       JSONeditor.start('tree', <%= AppConfig.to_json %>);
       setConfigValue= function(form){
           form.config.value = JSONeditor.treeBuilder.JSONstring.make(JSONeditor.treeBuilder.json);

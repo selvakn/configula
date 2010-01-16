@@ -1,8 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../../rails_spec_helper')
 
 describe Admin::ConfigulaController, :type => :controller do
-  integrate_views
-
   before(:each) do
     @actual_config = AppConfig.dup
   end

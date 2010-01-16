@@ -26,7 +26,7 @@ module Configula
       each do |key, value|
         case
         when value.kind_of?(String)
-          self[key] = eval("%Q{#{value}}")
+          self[key] = interpolate(value)
         when value.kind_of?(Configula::Base)
           value.prepare!
         end
@@ -65,6 +65,13 @@ module Configula
     
     def get(key)
       self[key.to_s]
+    end
+
+    def interpolate(value)
+      value.gsub(/(\\\\)?\{\{([^\}]+)\}\}/) do
+        escaped, pattern, key = $1, $2, $2.to_sym
+        escaped ? pattern : eval(key.to_s)
+      end
     end
 
     def method_missing(method_name, *args)
