@@ -1,0 +1,19 @@
+Description:
+    Generated basic sample config files to kickstart.
+
+Example:
+    script/generate configula
+
+    This will create:
+
+    Sample config files:
+    config/configula/environemnt.yml
+                     development.yml
+                     test.yml
+                     production.yml
+	
+    Public resources:
+    public/configula_public/images
+                            javascripts
+	
+    And AppConfig Initilazer

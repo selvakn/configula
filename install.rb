@@ -1,3 +1,1 @@
-# install script
-
-puts "im being installed!!"
+puts IO.read(File.join(File.dirname(__FILE__), 'readme.textile'))

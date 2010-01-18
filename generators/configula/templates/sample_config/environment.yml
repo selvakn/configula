@@ -1,0 +1,9 @@
+config1: "value1"
+config2: "value2"
+config3: ["value3.1", "value3.2"]
+config4:
+  sub_config4.1: "value4.1"
+  sub_config4.2: "value4.2"
+config5:
+  sub_config1: "value5.1"
+  sub_config2: "value5.2"
