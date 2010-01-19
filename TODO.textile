@@ -5,7 +5,6 @@
 * Handle Array of Hash in values - [DONE].
 * Add reload from definition button on admin web interface - [DONE].
 * Generators for basic configs - [DONE].
-* Update readme.
 * Make the config files erb ed (but why?).
 * Fail gracefully if default config file not found.
 * Warnings on conflicts between data in store and definition.

@@ -1,0 +1,34 @@
+*Configula*
+
+	* Is your @environemtn.rb@ and other env specific conf files like @development.rb@ filled with constants?
+	* Are you doing deployment just because of a change in these configs?
+	* Do you want a way to group these configs so that they make more sense?
+	* Do you need a better way to manage these configs?
+	
+	Then this plugin might help you to solve these problems.
+	
+	
+*So what is Configula?*
+
+Tool for managing configs in your rails app with:
+
+* Yaml (or hash) based config management for different environments.
+* Web based admin console for modifying these configs at run time.
+* And backed by different types of stores (for persistence in production env).
+	
+	* Yaml store is implemented.
+	* Database(activerecord) store (Yet to be implemented).
+	
+	
+
+*Installation*
+
+@script/plugin install git://github.com/selvakn/configula.git@
+
+*Usage*
+
+@script/generate configula@
+
+Use @script/generate configula -h@ to see all available options
+
+Start your server and visit @http://<your-host-name>:<port>/admin/configula@ for **Admin web console** 
