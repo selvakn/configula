@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+	<head>
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="ribbon.css">
+		<link rel="stylesheet" type="text/css" href="githubstyle.css">
+	</head>
+	<body>
+		<div class="right ribbon-holder">
+			<a href="http://github.com/selvakn/configula/" class="gray ribbon"><span class="text">Fork me on GitHub</span></a>
+		</div>
+		<div id="readme" class="announce">
+			<div class="wikistyle">
+				<p>
+					<strong>Configula</strong>
+				</p>
+				<p>
+					<ul>
+						<li>Is your <code>environemtn.rb</code> and other env specific conf files like <code>development.rb</code> filled with constants?</li>
+						<li>Are you doing deployment just because of a change in these configs?</li>
+						<li>Do you want a way to group these configs so that they make more sense?</li>
+						<li>Do you need a better way to manage these configs?</li>
+					</ul>
+				</p>
+				<p>
+					Then this plugin might help you to solve these problems.
+				</p>
+				<p>
+					<strong>So what is Configula?</strong>
+				</p>
+				<p>
+					Tool for managing configs in your rails app with:
+				</p>
+				<ul>
+					<li>Yaml (or hash) based config management for different environments.
+					</li>
+					<li>Web based admin console for modifying these configs at run time.
+					</li>
+					<li>
+						And backed by different types of stores (for persistence in production env).
+						<ul>
+							<li>Yaml store is implemented.</li>
+							<li>Database(activerecord) store (Yet to be implemented).</li>
+						</ul>
+					</li>
+				</ul>
+				<p>
+					<strong>Installation</strong>
+				</p>
+				<p>
+					<code>script/plugin install git://github.com/selvakn/configula.git</code>
+				</p>
+				<p>
+					<strong>Usage</strong>
+				</p>
+				<p>
+					<code>script/generate configula</code>
+				</p>
+				<p>
+					Use <code>script/generate configula -h</code> to see all available options
+				</p>
+				<p>
+					Start your server and visit <code>http://&lt;your-host-name&gt;:&lt;port&gt;/admin/configula</code> for <b>Admin web console</b>
+				</p>
+			</div>
+		</div>
+	</body>
+</html>
