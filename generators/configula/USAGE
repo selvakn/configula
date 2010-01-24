@@ -1,8 +1,8 @@
 Description:
-    Generated basic sample config files to kickstart.
+    Generates initializers and basic sample config files to kickstart.
 
 Example:
-    script/generate configula
+    script/generate configula NoStore
 
     This will create:
 

@@ -20,7 +20,11 @@ module Configula
       end
       
       def raise_no_store_error
-        raise LoadFromStoreError.new("No store is cofigured")
+        raise_load_error "No store is cofigured"
+      end
+      
+      def raise_load_error(message)
+        raise LoadFromStoreError.new(message)
       end
     end
   end

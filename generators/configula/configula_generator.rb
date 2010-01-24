@@ -4,8 +4,10 @@ class ConfigulaGenerator < Rails::Generator::Base
   
   def manifest
     record do |m|
-      m.file 'app_config.rb', File.join("config", "initializers", "app_config.rb")
+      store = parse_store_from_options
+      m.template 'app_config.rb', File.join("config", "initializers", "app_config.rb"), :assigns => {:store => store}
       
+      create_migration_for_db_store(m) if store == "DBStore"
       create_sample_config(m) unless options[:skip_sample_config]
       create_js_and_images(m) unless options[:skip_images_and_js]
     end
@@ -20,7 +22,30 @@ class ConfigulaGenerator < Rails::Generator::Base
     opt.on('--skip-images-and-js', 'Skip generation of images and javascript files') { |value| options[:skip_images_and_js] = value }
   end
 
+  def banner
+    <<-EOS
+      script/generate configula [store_name] [options]
+      Available stores: #{available_stores.join(", ")}.
+    EOS
+  end
+  
   private
+  def create_migration_for_db_store(m)
+    m.migration_template "migrations/app_config_db_store.rb",
+                         'db/migrate',
+                         :migration_file_name => "create_table_app_config"
+  end
+  
+  def parse_store_from_options
+    return available_stores[0] unless ARGV[0]
+    return ARGV[0] if available_stores.include?(ARGV[0])
+    raise "Unknown store #{ARGV[0]}. Available store options are #{available_stores.join(' / ')}"
+  end
+  
+  def available_stores
+    ["NoStore", "YamlStore", "DBStore"]
+  end
+  
   def create_sample_config(m)
     m.directory File.join("config","configula")
     
