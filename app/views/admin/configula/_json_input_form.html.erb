@@ -1,8 +1,17 @@
 <form name="jsoninput" action="#" onsubmit="return treeBuilder.jsonChange(this)" id="jsoninput">
   <input name="jlabel" type="text" value="" size="60" style="width:400px"/>
   <br/><br/>
-  Value:<br/>
-  <textarea name="jvalue" rows="10" cols="50" style="width:400px"></textarea>
+  <div>
+    <div id="value">
+      Value:<br/>
+      <textarea name="jvalue" rows="10" style="width:300px"></textarea>
+    </div>
+    <div id="computed_value">
+      Computed Value: (will be updated only after the new config is prepared.)<br/>
+      <textarea name="jcomputedValue" id="jcomputedValue" rows="10" style="width:300px"></textarea>
+    </div>
+    <div class="clearFloat"></div>
+  </div>
   <br/><br/>
   Data type:
   <select onchange="treeBuilder.changeJsonDataType(this.value,this.parentNode)" name="jtype">

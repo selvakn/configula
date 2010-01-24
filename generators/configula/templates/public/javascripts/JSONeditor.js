@@ -29,13 +29,17 @@ Modified By Selva for Configula
 */
 
 JSONeditor={
-	start:function(treeDivName, json){
+	start:function(treeDivName, json, computed_json){
 		this.treeDivName=treeDivName;
 		treeBuilder=this.treeBuilder,
         $=treeBuilder.$;
+        this.computed_json = {"json":computed_json};
 		treeBuilder.JSONbuild(treeDivName,json);
 	},
-    defaultRootName: "AppConfig"
+    defaultRootName: "AppConfig",
+    setComputedValue: function(value){
+        $("jcomputedValue").value = value;
+    }
 }
 
 
@@ -102,6 +106,7 @@ JSONeditor.treeBuilder={
 		treeBuilder.jSyncTree(x)
 		var t=treeBuilder
 		eval("var a=treeBuilder."+x)
+        JSONeditor.setComputedValue(t.JSONstring.make(eval("JSONeditor.computed_json."+x)));
 		eval("var ap=treeBuilder."+treeBuilder.jsonParent(x))
 		var b=t.JSONstring.make(a)
 		var t=(a && treeBuilder.isArray(a))?"array":typeof a

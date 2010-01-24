@@ -5,7 +5,7 @@
   <script src="/configula_public/javascripts/JSONeditor.js"></script>
   <script>
   onload=function(){
-      JSONeditor.start('tree', <%= AppConfig.to_json %>);
+      JSONeditor.start('tree', <%= AppConfig.to_json %>, <%= AppConfig.to_hash.to_json %>);
       setConfigValue= function(form){
           form.config.value = JSONeditor.treeBuilder.JSONstring.make(JSONeditor.treeBuilder.json);
       }
@@ -37,6 +37,13 @@
       }
       #info{
           color:teal;
+      }
+      #computed_value, #value{
+          float:left;
+          padding-right:10px;
+      }
+      .clearFloat {
+          clear:both;
       }
   </style>
 

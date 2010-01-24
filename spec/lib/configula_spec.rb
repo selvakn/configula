@@ -138,7 +138,7 @@ describe Configula::Base do
     end
 
     it "should convert the config into hash" do
-      @config.should == {
+      @config.to_hash.should == {
         "another_config" => "another_config",
         "array_config" => [1, 2, "three", "some_string_value"],
         "chaining" => { 

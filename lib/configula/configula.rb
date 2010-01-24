@@ -23,7 +23,7 @@ module Configula
       @hashes[1..-1].each do |hash|
         partial_set(hash)
       end
-      prepare!
+      self
     end
     
     def reset(hash)
@@ -31,23 +31,29 @@ module Configula
       hash.each do |key, value|
         set(key, value)
       end
-      prepare!
+      self
     end
 
     def prepare!
-      each do |key, value|
-        case
-        when value.kind_of?(String)
-          self[key] = interpolate(value)
-        when value.kind_of?(Array)
-          self[key] = value.collect{|val| interpolate(val) }
-        when value.kind_of?(Configula::Base)
-          value.prepare!
-        end
-      end
-      
-      @prepared = true
+       each do |key, value|
+         if value.kind_of?(Configula::Base)
+           value.prepare!
+         else
+           self[key] = prepare_value(value)
+         end
+       end
       self
+    end
+    
+    def prepare_value(value)
+      case
+      when value.kind_of?(String)
+        interpolate(value)
+      when value.kind_of?(Array)
+        value.collect{|val| interpolate(val) }
+      else
+        value
+      end
     end
     
     def partial_set(hash)
@@ -63,18 +69,21 @@ module Configula
       self
     end
 
-    private
-    def prepared?
-      @prepared ||= false
+    def to_hash
+      inject({}) do |hash, key_value|
+        key, value = key_value
+        hash.update(key => value.kind_of?(Base) ? value.to_hash : prepare_value(value))
+      end
     end
 
+    private
     def set(key, value)
       value_to_set = value.kind_of?(Hash) ? Base.prepare(value) : value
       self[key.to_s] = value_to_set
     end
-    
+
     def get(key)
-      self[key.to_s]
+      prepare_value self[key.to_s]
     end
 
     def interpolate(value)
