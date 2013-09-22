@@ -1,3 +1,6 @@
+*Warning*
+	* This is not maintained anymore.
+
 *Configula*
 
 	* Is your @environemtn.rb@ and other env specific conf files like @development.rb@ filled with constants?
